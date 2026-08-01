@@ -27,7 +27,7 @@ export default function BillingPage() {
       }
     } catch {
       setErrorNotice('Connection error. Please try again.');
-    } fontally {
+    } finally {
       setLoading(false);
     }
   };
