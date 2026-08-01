@@ -52,7 +52,7 @@ export default function Home() {
           </Link>
           <Link
             href="/signin"
-            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-lg shadow-indigo-600/20"
+            className="bg-[#5440ed] hover:bg-[#432ee0] text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-lg shadow-indigo-600/20"
           >
             Get Started
           </Link>
@@ -61,13 +61,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="max-w-4xl mx-auto px-4 py-10 flex flex-col items-center text-center">
-        <div className="space-y-6 mb-10">
+        <div className="space-y-6 mb-12">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
-            Launch your SaaS in{' '}
-            <span className="text-[#6366f1] bg-[#1a1c38] px-3 py-1 rounded-xl border border-indigo-500/30 inline-block">
-              hours
-            </span>
-            , not weeks.
+            Launch your SaaS <span className="text-[#5440ed]">in hours</span>, not weeks.
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
             Complete Next.js 14, Supabase, and Stripe boilerplate ready for production.
@@ -92,8 +88,18 @@ export default function Home() {
           )}
         </div>
 
+        {/* Pricing Heading */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-extrabold text-white tracking-tight">
+            Flexible Plans & Pricing
+          </h2>
+          <p className="text-gray-400 text-sm mt-2">
+            Choose the right plan to jumpstart your production boilerplate.
+          </p>
+        </div>
+
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-2 gap-8 w-full mt-2 text-left">
+        <div className="grid md:grid-cols-2 gap-8 w-full text-left">
           
           {/* Starter Plan */}
           <div className="bg-[#0b0d17] border border-gray-800/80 rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative">
@@ -162,7 +168,7 @@ export default function Home() {
             <button
               onClick={() => handleSubscribe('pro')}
               disabled={loading === 'pro'}
-              className="w-full bg-[#4f39f6] hover:bg-[#432ee0] text-white font-medium py-3.5 rounded-xl transition text-sm shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+              className="w-full bg-[#5440ed] hover:bg-[#432ee0] text-white font-medium py-3.5 rounded-xl transition text-sm shadow-lg shadow-indigo-600/20 disabled:opacity-50"
             >
               {loading === 'pro' ? 'Redirecting...' : 'Subscribe Now'}
             </button>
