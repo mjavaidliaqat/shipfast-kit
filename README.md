@@ -1,19 +1,28 @@
-# 🚀 ShipFast Kit
+# 🚀 ShipFast Kit - Production SaaS Boilerplate
 
-A production-ready Next.js 14, Tailwind CSS, Supabase, and Stripe boilerplate designed to launch your Micro-SaaS in hours.
+A modern, full-stack Micro-SaaS starter kit built with **Next.js 14 (App Router)**, **Tailwind CSS**, **Supabase Authentication & PostgreSQL**, and **Stripe Subscriptions**. 
 
-## ✨ Features
-- ⚡ **Next.js 14 App Router** - High performance and SSR ready.
-- 🎨 **Tailwind CSS + Dark Theme** - Beautiful modern UI design out-of-the-box.
-- 🔐 **Supabase Integration** - Pre-configured authentication and database client.
-- 💳 **Stripe Ready** - Subscription pricing cards and checkout architecture.
-- 📊 **Interactive Dashboard** - Sleek admin panel for user analytics.
+Designed to save developers and indie hackers 30+ hours of boilerplate setup.
+
+---
+
+## ⚡ Features
+
+- **Framework**: Next.js 14 with App Router & React Server Components.
+- **Styling**: Tailwind CSS with custom dark mode theme (`#07090e`).
+- **Authentication**: Complete Supabase Auth (Sign In, Sign Up, Session Persistence).
+- **Payments**: Stripe Checkout integration + Async Webhook Handler (`/api/webhooks/stripe`).
+- **Dashboard**: Fully modular layout with dynamic routes (`Overview`, `Customers`, `Billing`, `Settings`).
+- **Database**: PostgreSQL database queries via `@supabase/supabase-js`.
+- **TypeScript**: Strictly typed codebase for maximum developer velocity.
 
 ---
 
 ## 🛠️ Quick Start Guide
 
-### 1. Clone the Repository
+### 1. Clone & Install Dependencies
+
 ```bash
-git clone [https://github.com/mjavaidliaqat/shipfast-kit.git](https://github.com/mjavaidliaqat/shipfast-kit.git)
+git clone [https://github.com/your-username/shipfast-kit.git](https://github.com/your-username/shipfast-kit.git)
 cd shipfast-kit
+npm install
