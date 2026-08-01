@@ -18,27 +18,27 @@ export default function Home() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('Stripe Checkout Error: ' + (data.error || 'Failed to redirect'));
+        alert('Stripe Error: ' + (data.error || 'Failed to start checkout. Check your API keys.'));
       }
     } catch (err: any) {
-      alert('Error redirecting to Stripe');
+      alert('Error connecting to server.');
     } finally {
       setLoading(null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col justify-between">
+    <div style={{ backgroundColor: '#07090e', color: '#ffffff' }} className="min-h-screen flex flex-col justify-between font-sans">
       {/* Header */}
       <header className="max-w-6xl mx-auto w-full p-6 flex justify-between items-center border-b border-gray-800">
         <div className="flex items-center space-x-2">
           <span className="text-xl font-bold tracking-tight text-white">🚀 ShipFast Kit</span>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-6">
           <Link href="/signin" className="text-sm font-medium text-gray-300 hover:text-white transition">
             Sign In
           </Link>
-          <Link href="/signin" className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          <Link href="/signin" className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition inline-block">
             Get Started
           </Link>
         </div>
@@ -72,7 +72,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto text-left">
             {/* Starter Plan */}
-            <div className="bg-[#0f1422] border border-gray-800 p-8 rounded-2xl flex flex-col justify-between">
+            <div style={{ backgroundColor: '#0f1422' }} className="border border-gray-800 p-8 rounded-2xl flex flex-col justify-between">
               <div>
                 <h3 className="text-xl font-bold text-white">Starter</h3>
                 <div className="my-4">
@@ -86,16 +86,17 @@ export default function Home() {
                 </ul>
               </div>
               <button
+                type="button"
                 onClick={() => handleCheckout('Starter')}
                 disabled={loading === 'Starter'}
-                className="w-full text-center bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 text-indigo-300 hover:text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50"
+                className="w-full text-center bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 text-indigo-300 hover:text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50 cursor-pointer"
               >
-                {loading === 'Starter' ? 'Loading Checkout...' : 'Subscribe Now'}
+                {loading === 'Starter' ? 'Redirecting to Stripe...' : 'Subscribe Now'}
               </button>
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-[#0f1422] border-2 border-indigo-600 p-8 rounded-2xl flex flex-col justify-between relative">
+            <div style={{ backgroundColor: '#0f1422' }} className="border-2 border-indigo-600 p-8 rounded-2xl flex flex-col justify-between relative">
               <span className="absolute -top-3 right-6 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                 Most Popular
               </span>
@@ -113,11 +114,12 @@ export default function Home() {
                 </ul>
               </div>
               <button
+                type="button"
                 onClick={() => handleCheckout('Pro')}
                 disabled={loading === 'Pro'}
-                className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50"
+                className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50 cursor-pointer"
               >
-                {loading === 'Pro' ? 'Loading Checkout...' : 'Subscribe Now'}
+                {loading === 'Pro' ? 'Redirecting to Stripe...' : 'Subscribe Now'}
               </button>
             </div>
           </div>

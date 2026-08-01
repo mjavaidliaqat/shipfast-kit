@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const { priceId, planName } = await req.json();
+    const { planName } = await req.json();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -16,9 +16,9 @@ export async function POST(req: Request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: planName || 'ShipFast Kit Subscription',
+              name: `${planName} Plan - ShipFast Kit`,
             },
-            unit_amount: planName === 'Pro' ? 4900 : 1900, // $49 or $19
+            unit_amount: planName === 'Pro' ? 4900 : 1900,
             recurring: {
               interval: 'month',
             },
