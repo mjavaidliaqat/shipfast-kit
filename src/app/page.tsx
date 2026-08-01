@@ -5,138 +5,123 @@ import { useState } from 'react';
 
 export default function Home() {
   const [loading, setLoading] = useState<string | null>(null);
+  const [demoNotice, setDemoNotice] = useState<string | null>(null);
 
-  const handleCheckout = async (planName: string) => {
+  const handleSubscribe = async (plan: string) => {
+    setLoading(plan);
+    setDemoNotice(null);
+
     try {
-      setLoading(planName);
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planName }),
+        body: JSON.stringify({ priceId: plan === 'pro' ? 'price_pro' : 'price_starter' }),
       });
+
       const data = await res.json();
-      if (data.url) {
+
+      if (!res.ok || data.error) {
+        // Smooth inline notice instead of browser alert
+        setDemoNotice(data.error || 'Demo mode active. Add real Stripe API keys in .env.local to enable live checkout.');
+      } else if (data.url) {
         window.location.href = data.url;
-      } else {
-        alert('Stripe Error: ' + (data.error || 'Failed to start checkout. Check your API keys.'));
       }
-    } catch (err: any) {
-      alert('Error connecting to server.');
+    } catch {
+      setDemoNotice('Demo Mode: Redirecting to dashboard billing...');
+      setTimeout(() => {
+        window.location.href = '/dashboard/billing';
+      }, 1500);
     } finally {
       setLoading(null);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between font-sans bg-[#07090e] text-white">
+    <div className="min-h-screen bg-[#07090e] text-white flex flex-col justify-between">
       {/* Header */}
-      <header className="max-w-6xl mx-auto w-full p-6 flex justify-between items-center border-b border-gray-800">
-        <div className="flex items-center space-x-2">
-          <span className="text-xl font-bold tracking-tight text-white">🚀 ShipFast Kit</span>
+      <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <span className="text-2xl">🚀</span>
+          <span className="font-bold text-xl tracking-tight">ShipFast Kit</span>
         </div>
-        <div className="flex items-center space-x-6">
-          <Link 
-            href="/signin" 
-            className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-          >
-            Sign In
-          </Link>
-          <Link 
-            href="/signin" 
-            className="bg-[#4f46e5] hover:opacity-90 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-all inline-block"
-          >
-            Get Started
-          </Link>
-        </div>
+        <Link
+          href="/dashboard"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
+        >
+          Dashboard
+        </Link>
       </header>
 
-      {/* Hero Section */}
-      <main className="max-w-4xl mx-auto text-center px-6 py-20">
-        <div className="inline-block bg-indigo-950/60 border border-indigo-800/50 rounded-full px-4 py-1.5 text-xs text-indigo-300 mb-8 font-medium">
-          ⚡ Production Ready SaaS Boilerplate
-        </div>
-        
-        <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
-          Ship your Micro-SaaS <span className="text-[#6366f1]">in hours,</span> not weeks.
+      {/* Hero & Pricing */}
+      <main className="max-w-4xl mx-auto px-6 py-12 text-center">
+        <h1 className="text-5xl font-extrabold tracking-tight mb-4">
+          Launch your SaaS in <span className="text-indigo-400">hours</span>, not weeks.
         </h1>
-        
-        <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
-          Everything you need to launch fast: Supabase Authentication, Stripe Payments, Tailwind CSS, and a modern UI dashboard pre-configured.
+        <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
+          Complete Next.js 14, Supabase, and Stripe boilerplate ready for production.
         </p>
 
-        <div className="flex justify-center items-center space-x-4">
-          <Link 
-            href="/dashboard" 
-            className="bg-[#4f46e5] hover:opacity-90 text-white font-medium px-6 py-3 rounded-lg flex items-center space-x-2 transition-all"
-          >
-            <span>Explore Dashboard Demo</span>
-            <span>→</span>
-          </Link>
-        </div>
+        {demoNotice && (
+          <div className="mb-6 p-4 bg-indigo-900/30 border border-indigo-500/40 rounded-xl text-indigo-300 text-sm max-w-md mx-auto">
+            ℹ️ {demoNotice}
+          </div>
+        )}
 
-        {/* Pricing Section */}
-        <div className="mt-28">
-          <h2 className="text-3xl font-bold text-white mb-2">Simple, Transparent Pricing</h2>
-          <p className="text-gray-400 mb-12">Choose the plan that fits your launch goals.</p>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto text-left">
-            {/* Starter Plan */}
-            <div className="bg-[#0f1422] border border-gray-800 p-8 rounded-2xl flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-white">Starter</h3>
-                <div className="my-4">
-                  <span className="text-4xl font-extrabold text-white">$19</span>
-                  <span className="text-gray-400"> / month</span>
-                </div>
-                <ul className="space-y-3 text-sm text-gray-300 mb-8">
-                  <li className="flex items-center">✓ Unlimited Access</li>
-                  <li className="flex items-center">✓ Basic Analytics</li>
-                  <li className="flex items-center">✓ Community Support</li>
-                </ul>
+        <div className="grid md:grid-cols-2 gap-8 text-left">
+          {/* Starter Plan */}
+          <div className="bg-[#0e131f] border border-gray-800 rounded-2xl p-8 flex flex-col justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-white">Starter</h3>
+              <div className="mt-4 flex items-baseline">
+                <span className="text-4xl font-extrabold">$19</span>
+                <span className="text-gray-400 ml-2 text-sm">/ month</span>
               </div>
-              <button
-                type="button"
-                onClick={() => handleCheckout('Starter')}
-                disabled={loading === 'Starter'}
-                className="w-full text-center bg-[#4f46e5]/20 hover:bg-[#4f46e5] text-[#818cf8] hover:text-white border border-indigo-500/30 font-medium py-2.5 rounded-lg transition-all disabled:opacity-50 cursor-pointer"
-              >
-                {loading === 'Starter' ? 'Redirecting to Stripe...' : 'Subscribe Now'}
-              </button>
+              <ul className="mt-6 space-y-3 text-sm text-gray-300">
+                <li>✓ Unlimited Access</li>
+                <li>✓ Basic Analytics</li>
+                <li>✓ Community Support</li>
+              </ul>
             </div>
+            <button
+              onClick={() => handleSubscribe('starter')}
+              disabled={loading === 'starter'}
+              className="mt-8 w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 rounded-xl transition text-center disabled:opacity-50"
+            >
+              {loading === 'starter' ? 'Processing...' : 'Subscribe Starter'}
+            </button>
+          </div>
 
-            {/* Pro Plan */}
-            <div className="bg-[#0f1422] border-2 border-indigo-600 p-8 rounded-2xl flex flex-col justify-between relative">
-              <span className="absolute -top-3 right-6 bg-[#4f46e5] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                Most Popular
-              </span>
-              <div>
-                <h3 className="text-xl font-bold text-white">Pro</h3>
-                <div className="my-4">
-                  <span className="text-4xl font-extrabold text-white">$49</span>
-                  <span className="text-gray-400"> / month</span>
-                </div>
-                <ul className="space-y-3 text-sm text-gray-300 mb-8">
-                  <li className="flex items-center">✓ Everything in Starter</li>
-                  <li className="flex items-center">✓ Priority Support</li>
-                  <li className="flex items-center">✓ Custom Domain</li>
-                  <li className="flex items-center">✓ Advanced Metrics</li>
-                </ul>
+          {/* Pro Plan */}
+          <div className="bg-[#0e131f] border-2 border-indigo-600 rounded-2xl p-8 flex flex-col justify-between relative">
+            <span className="absolute -top-3 right-6 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+              Most Popular
+            </span>
+            <div>
+              <h3 className="text-xl font-bold text-white">Pro</h3>
+              <div className="mt-4 flex items-baseline">
+                <span className="text-4xl font-extrabold">$49</span>
+                <span className="text-gray-400 ml-2 text-sm">/ month</span>
               </div>
-              <button
-                type="button"
-                onClick={() => handleCheckout('Pro')}
-                disabled={loading === 'Pro'}
-                className="w-full text-center bg-[#4f46e5] hover:opacity-90 text-white font-medium py-2.5 rounded-lg transition-all disabled:opacity-50 cursor-pointer"
-              >
-                {loading === 'Pro' ? 'Redirecting to Stripe...' : 'Subscribe Now'}
-              </button>
+              <ul className="mt-6 space-y-3 text-sm text-gray-300">
+                <li>✓ Everything in Starter</li>
+                <li>✓ Priority Support</li>
+                <li>✓ Custom Domain</li>
+                <li>✓ Advanced Metrics</li>
+              </ul>
             </div>
+            <button
+              onClick={() => handleSubscribe('pro')}
+              disabled={loading === 'pro'}
+              className="mt-8 w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition text-center disabled:opacity-50"
+            >
+              {loading === 'pro' ? 'Processing...' : 'Subscribe Now'}
+            </button>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 text-center py-6 text-sm text-gray-500">
+      <footer className="text-center py-6 text-xs text-gray-500">
         © Built for indie hackers.
       </footer>
     </div>

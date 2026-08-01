@@ -2,44 +2,46 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const navigation = [
+  { name: 'Overview', href: '/dashboard' },
+  { name: 'Customers', href: '/dashboard/customers' },
+  { name: 'Billing', href: '/dashboard/billing' },
+  { name: 'Settings', href: '/dashboard/settings' },
+];
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
 
-  const navItems = [
-    { name: 'Overview', href: '/dashboard', icon: '📊' },
-    { name: 'Customers', href: '/dashboard/customers', icon: '👥' },
-    { name: 'Billing', href: '/dashboard/billing', icon: '💳' },
-    { name: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
-  ];
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex">
+    <div className="min-h-screen bg-[#07090e] flex text-white font-sans">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-gray-800 p-6 flex flex-col justify-between hidden md:flex">
-        <div>
-          <Link href="/" className="text-xl font-bold tracking-tight text-white block mb-8">
-            🚀 ShipFast Kit
-          </Link>
+      <aside className="w-64 border-r border-gray-800 p-6 flex flex-col justify-between">
+        <div className="space-y-8">
+          <div className="flex items-center space-x-3">
+            <span className="text-2xl">🚀</span>
+            <span className="font-bold text-lg tracking-tight">ShipFast Kit</span>
+          </div>
 
           <nav className="space-y-1">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
+            {navigation.map((item) => {
+              const isActive = mounted && pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition ${
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30'
+                      ? 'bg-indigo-600/20 text-indigo-400 font-semibold border border-indigo-500/30'
                       : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
                   }`}
                 >
-                  <span>{item.icon}</span>
                   <span>{item.name}</span>
                 </Link>
               );
@@ -50,16 +52,16 @@ export default function DashboardLayout({
         <div>
           <Link
             href="/"
-            className="text-sm text-gray-500 hover:text-gray-300 flex items-center space-x-2 transition"
+            className="flex items-center space-x-2 text-xs text-gray-400 hover:text-white transition"
           >
             <span>← Back to Home</span>
           </Link>
         </div>
       </aside>
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <main className="flex-1 p-8 overflow-y-auto">
-        <div className="max-w-5xl mx-auto">{children}</div>
+        {children}
       </main>
     </div>
   );
