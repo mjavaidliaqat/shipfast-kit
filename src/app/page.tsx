@@ -42,16 +42,16 @@ export default function Home() {
           <span className="font-bold text-xl tracking-tight text-white">ShipFast Kit</span>
         </div>
 
-        {/* Right Navigation Actions */}
+        {/* Links to /signin */}
         <div className="flex items-center space-x-4">
           <Link
-            href="/dashboard"
+            href="/signin"
             className="text-sm text-gray-300 hover:text-white transition font-medium px-3 py-2"
           >
             Sign In
           </Link>
           <Link
-            href="/dashboard"
+            href="/signin"
             className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-lg shadow-indigo-600/20"
           >
             Get Started
@@ -62,8 +62,12 @@ export default function Home() {
       {/* Hero Section */}
       <main className="max-w-4xl mx-auto px-4 py-10 flex flex-col items-center text-center">
         <div className="space-y-6 mb-10">
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight">
-            Launch your SaaS in <span className="text-[#6366f1]">hours</span>, not weeks.
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+            Launch your SaaS in{' '}
+            <span className="text-[#6366f1] bg-[#1a1c38] px-3 py-1 rounded-xl border border-indigo-500/30 inline-block">
+              hours
+            </span>
+            , not weeks.
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
             Complete Next.js 14, Supabase, and Stripe boilerplate ready for production.
@@ -94,7 +98,9 @@ export default function Home() {
           {/* Starter Plan */}
           <div className="bg-[#0b0d17] border border-gray-800/80 rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-2">Starter</h3>
+              <h3 className="text-2xl font-bold text-white">Starter</h3>
+              <p className="text-xs text-gray-400 mt-1">Perfect for small side projects and indie developers.</p>
+
               <div className="flex items-baseline gap-1 my-6">
                 <span className="text-5xl font-extrabold text-white">$19</span>
                 <span className="text-gray-400 text-sm">/ month</span>
@@ -129,7 +135,9 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+              <h3 className="text-2xl font-bold text-white">Pro</h3>
+              <p className="text-xs text-gray-400 mt-1">For growing SaaS products needing scale & custom domains.</p>
+
               <div className="flex items-baseline gap-1 my-6">
                 <span className="text-5xl font-extrabold text-white">$49</span>
                 <span className="text-gray-400 text-sm">/ month</span>
