@@ -1,6 +1,32 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
+  const [loading, setLoading] = useState<string | null>(null);
+
+  const handleCheckout = async (planName: string) => {
+    try {
+      setLoading(planName);
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planName }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Stripe Checkout Error: ' + (data.error || 'Failed to redirect'));
+      }
+    } catch (err: any) {
+      alert('Error redirecting to Stripe');
+    } finally {
+      setLoading(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#07090e] text-white flex flex-col justify-between">
       {/* Header */}
@@ -59,9 +85,13 @@ export default function Home() {
                   <li className="flex items-center">✓ Community Support</li>
                 </ul>
               </div>
-              <Link href="/signin" className="w-full text-center bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 text-indigo-300 hover:text-white font-medium py-2.5 rounded-lg transition">
-                Subscribe Now
-              </Link>
+              <button
+                onClick={() => handleCheckout('Starter')}
+                disabled={loading === 'Starter'}
+                className="w-full text-center bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 text-indigo-300 hover:text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50"
+              >
+                {loading === 'Starter' ? 'Loading Checkout...' : 'Subscribe Now'}
+              </button>
             </div>
 
             {/* Pro Plan */}
@@ -82,9 +112,13 @@ export default function Home() {
                   <li className="flex items-center">✓ Advanced Metrics</li>
                 </ul>
               </div>
-              <Link href="/signin" className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition">
-                Subscribe Now
-              </Link>
+              <button
+                onClick={() => handleCheckout('Pro')}
+                disabled={loading === 'Pro'}
+                className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition disabled:opacity-50"
+              >
+                {loading === 'Pro' ? 'Loading Checkout...' : 'Subscribe Now'}
+              </button>
             </div>
           </div>
         </div>
