@@ -35,11 +35,27 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#07080d] text-white flex flex-col justify-between font-sans">
       
-      {/* Top Header Logo */}
-      <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between">
+      {/* Top Header Navigation */}
+      <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between border-b border-gray-800/40">
         <div className="flex items-center space-x-3">
           <span className="text-2xl">🚀</span>
           <span className="font-bold text-xl tracking-tight text-white">ShipFast Kit</span>
+        </div>
+
+        {/* Right Navigation Actions */}
+        <div className="flex items-center space-x-4">
+          <Link
+            href="/dashboard"
+            className="text-sm text-gray-300 hover:text-white transition font-medium px-3 py-2"
+          >
+            Sign In
+          </Link>
+          <Link
+            href="/dashboard"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-lg shadow-indigo-600/20"
+          >
+            Get Started
+          </Link>
         </div>
       </header>
 
