@@ -1,34 +1,25 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16' as any,
-});
-
 export async function POST(req: Request) {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!stripeKey || stripeKey.includes('your_stripe_secret_key')) {
+    return NextResponse.json({ 
+      error: 'Stripe is in Demo Mode. Add your live STRIPE_SECRET_KEY in .env.local to test real checkout.' 
+    }, { status: 400 });
+  }
+
   try {
-    const { planName } = await req.json();
+    const stripe = new Stripe(stripeKey, { apiVersion: '2023-10-16' as any });
+    const { priceId } = await req.json();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: `${planName} Plan - ShipFast Kit`,
-            },
-            unit_amount: planName === 'Pro' ? 4900 : 1900,
-            recurring: {
-              interval: 'month',
-            },
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: [{ price: priceId || 'price_123', quantity: 1 }],
       mode: 'subscription',
-      success_url: `${req.headers.get('origin')}/dashboard?success=true`,
-      cancel_url: `${req.headers.get('origin')}/?canceled=true`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/billing?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/`,
     });
 
     return NextResponse.json({ url: session.url });
