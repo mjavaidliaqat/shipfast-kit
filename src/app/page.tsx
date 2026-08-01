@@ -35,25 +35,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#07080d] text-white flex flex-col justify-between font-sans">
       
-      {/* Top Header Navigation */}
-      <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between border-b border-gray-800/50">
+      {/* Top Header Logo */}
+      <header className="max-w-6xl mx-auto w-full px-6 py-6 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <span className="text-2xl">🚀</span>
           <span className="font-bold text-xl tracking-tight text-white">ShipFast Kit</span>
         </div>
-        <Link
-          href="/dashboard"
-          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/20"
-        >
-          Explore Dashboard Demo →
-        </Link>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 py-12 flex flex-col items-center text-center">
-        
-        {/* Hero Banner */}
-        <div className="space-y-4 mb-8">
+      {/* Hero Section */}
+      <main className="max-w-4xl mx-auto px-4 py-10 flex flex-col items-center text-center">
+        <div className="space-y-6 mb-10">
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight">
             Launch your SaaS in <span className="text-[#6366f1]">hours</span>, not weeks.
           </h1>
@@ -61,7 +53,17 @@ export default function Home() {
             Complete Next.js 14, Supabase, and Stripe boilerplate ready for production.
           </p>
 
-          {/* Alert / Notice Message */}
+          {/* Centered Dashboard CTA Button */}
+          <div className="pt-2">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 bg-[#5440ed] hover:bg-[#432ee0] text-white text-base font-semibold px-8 py-3.5 rounded-xl transition shadow-xl shadow-indigo-600/25 transform hover:-translate-y-0.5"
+            >
+              Explore Dashboard Demo →
+            </Link>
+          </div>
+
+          {/* Inline Alert / Notice */}
           {demoNotice && (
             <div className="mt-6 inline-flex items-center gap-2 px-5 py-3 bg-[#11142b]/80 border border-[#2d325a] rounded-xl text-indigo-300 text-sm max-w-lg mx-auto shadow-lg backdrop-blur-sm">
               <span className="bg-indigo-500/20 text-indigo-300 text-xs px-1.5 py-0.5 rounded font-bold">i</span>
@@ -71,7 +73,7 @@ export default function Home() {
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-2 gap-8 w-full mt-4 text-left">
+        <div className="grid md:grid-cols-2 gap-8 w-full mt-2 text-left">
           
           {/* Starter Plan */}
           <div className="bg-[#0b0d17] border border-gray-800/80 rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative">
@@ -100,13 +102,12 @@ export default function Home() {
               disabled={loading === 'starter'}
               className="w-full bg-[#192233] hover:bg-[#202b40] text-gray-200 font-medium py-3.5 rounded-xl transition text-sm disabled:opacity-50"
             >
-              {loading === 'starter' ? 'Redirecting to Stripe...' : 'Subscribe Starter'}
+              {loading === 'starter' ? 'Redirecting...' : 'Subscribe Starter'}
             </button>
           </div>
 
           {/* Pro Plan */}
           <div className="bg-[#0c0e1a] border-2 border-[#5440ed] rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative">
-            
             <div className="absolute -top-3.5 right-6 bg-[#5440ed] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
               MOST POPULAR
             </div>
@@ -139,7 +140,7 @@ export default function Home() {
               disabled={loading === 'pro'}
               className="w-full bg-[#4f39f6] hover:bg-[#432ee0] text-white font-medium py-3.5 rounded-xl transition text-sm shadow-lg shadow-indigo-600/20 disabled:opacity-50"
             >
-              {loading === 'pro' ? 'Redirecting to Stripe...' : 'Subscribe Now'}
+              {loading === 'pro' ? 'Redirecting...' : 'Subscribe Now'}
             </button>
           </div>
 
@@ -147,7 +148,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="text-center py-8 text-xs text-gray-500 border-t border-gray-800/30">
+      <footer className="text-center py-8 text-xs text-gray-500">
         © Built for indie hackers.
       </footer>
     </div>

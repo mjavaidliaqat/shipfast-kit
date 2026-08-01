@@ -14,9 +14,10 @@ export default function BillingPage() {
         window.location.href = data.url;
       }
     } catch {
-      alert('Redirecting to Stripe Billing Portal...');
+      // Direct smoothly to Stripe login without popup alerts
+      window.location.href = 'https://billing.stripe.com/p/login/test';
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 2000);
     }
   };
 
@@ -37,7 +38,7 @@ export default function BillingPage() {
         <button
           onClick={handleManageStripe}
           disabled={loading}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition disabled:opacity-50"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition disabled:opacity-50"
         >
           {loading ? 'Opening Portal...' : 'Manage via Stripe'}
         </button>
